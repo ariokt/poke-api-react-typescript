@@ -67,12 +67,8 @@ const PokemonList: React.FC = () => {
     return (
         <div className='bg-white p-4 min-h-[100vh]'>
             <FilterByType setFilterType={setFilterType} />
-            {loadingFilterChange ? 
+            {loadingFilterChange && !loadingScrolling ? 
                 <div className='mx-auto text-xl w-fit my-4'>Loading...</div>
-                :
-                pokemonList.length === 0
-                ?
-                <div className='mx-auto text-xl w-fit my-4'>Data Empty</div>
                 :
                 <div className='grid sm:grid-cols-2 md:grid-cols-4 gap-2 rounded-xl'>
                     {pokemonList.map((pokemon) => (
@@ -81,6 +77,7 @@ const PokemonList: React.FC = () => {
                 </div>
             }
             {loadingScrolling && <div className='mx-auto text-xl w-fit my-4'>Loading...</div>}
+            {(!loadingFilterChange && !loadingScrolling && pokemonList.length === 0) && <div className='mx-auto text-xl w-fit my-4'>Data Empty</div>}
         </div>
     );
 };
