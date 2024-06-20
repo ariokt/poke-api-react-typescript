@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchPokemonDetails } from '../../utils/pokeapi.tsx';
 import { Link } from 'react-router-dom';
+import TagPokemonType from '../TagPokemonType/index.tsx';
 
 interface PokemonCardProps {
     pokemon: {
@@ -46,6 +47,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon }) => {
             <div className='flex flex-col items-center shadow rounded-xl p-2'>
                 <h3 className='text-xl'>{pokemonName}</h3>
                 <img src={detailPokemon.sprites.front_shiny} alt={detailPokemon.species.name} width={200} height={200} />
+                <div className='flex gap-2 justify-center'>{detailPokemon.types.map((typeInfo: any) => <TagPokemonType key={typeInfo.type.name} pokemonType={typeInfo.type.name} />)}</div>
             </div>
         </Link>
     );
