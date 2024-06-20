@@ -1,3 +1,11 @@
+## How to run locally?
+1. Install node v20.10.0
+2. Download or clone the project
+3. Install project dependencies using npm install
+4. Run the project using npm run dev
+
+See the project online: https://ario-pokedex.vercel.app/
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
