@@ -1,25 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import { fetchPokemonList } from '../../utils/pokeapi.tsx';
+import { fetchPokemonList, fetchPokemonListByType } from '../../utils/pokeapi.tsx';
 import PokemonCard from '../PokemonCard/index.tsx';
+import FilterByType from '../FilterByType/index.tsx';
 
 const PokemonList: React.FC = () => {
     const [pokemonList, setPokemonList] = useState<any[]>([]);
     const [nextPageUrl, setNextPageUrl] = useState('');
     const [loadingScrolling, setLoadingScrolling] = useState(false);
+    const [loadingFilterChange, setLoadingFilterChange] = useState(false);
+    const [filterType, setFilterType] = useState('');
 
     const getDataPokemonByScrolling = async () => {
         setLoadingScrolling(true);
         const response = nextPageUrl ? await fetchPokemonList(nextPageUrl) : await fetchPokemonList();
-        if (response.results) {
+        if (response?.results) {
             const listPokemon = response.results;
             setPokemonList([...pokemonList, ...listPokemon]);
             if (response.next !== null) {
                 setNextPageUrl(response.next);
             } else {
-                setNextPageUrl('null')
+                setNextPageUrl('null');
             }
         }
         setLoadingScrolling(false);
+    };
+
+    const getDataPokemonByFilter = async () => {
+        setLoadingFilterChange(true);
+        if (filterType !== '') {
+            const response = await fetchPokemonListByType(filterType);
+            if (response.pokemon) {
+                const listPokemon = response.pokemon.map((item: any) => item.pokemon);
+                setPokemonList(listPokemon);
+            }
+        } else {
+            const response = await fetchPokemonList();
+            if (response.results) {
+                const listPokemon = response.results;
+                setPokemonList(listPokemon);
+                setNextPageUrl(response.next);
+            }
+        }
+        setLoadingFilterChange(false);
     };
 
     useEffect(() => {
@@ -27,7 +49,7 @@ const PokemonList: React.FC = () => {
     }, []);
 
     const handleScroll = () => {
-        if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 10 && !loadingScrolling) {
+        if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 10 && !loadingScrolling && !filterType) {
             getDataPokemonByScrolling();
         }
     };
@@ -35,15 +57,29 @@ const PokemonList: React.FC = () => {
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [loadingScrolling, pokemonList]);
+    }, [loadingScrolling, pokemonList, filterType]);
+
+    useEffect(() => {
+        setNextPageUrl('');
+        getDataPokemonByFilter();
+    }, [filterType]);
 
     return (
         <div className='bg-white p-4 min-h-[100vh]'>
-            <div className='grid sm:grid-cols-2 md:grid-cols-4 gap-2 rounded-xl'>
-              {pokemonList.map((pokemon) => (
-                  <PokemonCard key={pokemon.name} pokemon={pokemon} />
-              ))}
-            </div>
+            <FilterByType setFilterType={setFilterType} />
+            {loadingFilterChange ? 
+                <div className='mx-auto text-xl w-fit my-4'>Loading...</div>
+                :
+                pokemonList.length === 0
+                ?
+                <div className='mx-auto text-xl w-fit my-4'>Data Empty</div>
+                :
+                <div className='grid sm:grid-cols-2 md:grid-cols-4 gap-2 rounded-xl'>
+                    {pokemonList.map((pokemon) => (
+                        <PokemonCard key={pokemon.name} pokemon={pokemon} />
+                    ))}
+                </div>
+            }
             {loadingScrolling && <div className='mx-auto text-xl w-fit my-4'>Loading...</div>}
         </div>
     );

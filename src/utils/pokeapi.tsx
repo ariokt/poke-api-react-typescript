@@ -36,3 +36,23 @@ export const fetchPokemonDetails = async (url: string, name: string) => {
       }
   }
 };
+
+export const fetchAllTypes = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/type`);
+    return response.data;
+  } catch (error: any) {
+    window.alert('koneksi bermasalah!');
+    return error.response;
+  }
+};
+
+export const fetchPokemonListByType = async (typeName: string) => {
+  try {
+    const response = await axios.get(`${API_URL}/type/${typeName}`);
+    return response.data;
+  } catch (error: any) {
+    window.alert('koneksi bermasalah!');
+    return error.response;
+  }
+};
