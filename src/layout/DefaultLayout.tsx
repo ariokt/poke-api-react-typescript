@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import Pokeball from '../assets/pokeball.svg';
 import { Link } from 'react-router-dom';
+import ScrollTopButton from '../components/ScrollTopButton';
 
 
 interface DefaultLayoutProps {
@@ -17,6 +18,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
         </Link>
       </div>
       {children}
+      <ScrollTopButton />
     </main>
   )
 }
