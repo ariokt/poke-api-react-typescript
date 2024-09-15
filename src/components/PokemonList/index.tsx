@@ -66,7 +66,7 @@ const PokemonList: React.FC = () => {
 
     return (
         <div className='bg-white p-4 min-h-[100vh]'>
-            <FilterByType setFilterType={setFilterType} />
+            <FilterByType typeValue={filterType} setFilterType={setFilterType} />
             {loadingFilterChange && !loadingScrolling ? 
                 <div className='mx-auto text-xl w-fit my-4'>Loading...</div>
                 :

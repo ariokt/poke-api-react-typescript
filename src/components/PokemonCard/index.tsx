@@ -33,21 +33,18 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon }) => {
         getDataPokemon();
     }, []);
 
-    if (loading) {
-        return (
-            <div className='flex flex-col items-center shadow rounded-xl p-2'>
-                <h3 className='text-xl'>{pokemonName}</h3>
-                <div className='mx-auto w-fit my-4'>Loading...</div>
-            </div>
-        )
-    }
-
     return (
-        <Link to={`/${detailPokemon.species.name}`}>
+        <Link to={`/${pokemon.name}`}>
             <div className='flex flex-col items-center shadow rounded-xl p-2'>
                 <h3 className='text-xl'>{pokemonName}</h3>
-                <img src={detailPokemon.sprites.front_shiny} alt={detailPokemon.species.name} width={200} height={200} />
-                <div className='flex gap-2 justify-center'>{detailPokemon.types.map((typeInfo: any) => <TagPokemonType key={typeInfo.type.name} pokemonType={typeInfo.type.name} />)}</div>
+                { loading ?
+                    <div className='mx-auto w-fit my-4'>Loading...</div>
+                    :
+                    <>
+                        <img src={detailPokemon.sprites.front_shiny} alt={detailPokemon.species.name} width={200} height={200} />
+                        <div className='flex gap-2 justify-center'>{detailPokemon.types.map((typeInfo: any) => <TagPokemonType key={typeInfo.type.name} pokemonType={typeInfo.type.name} />)}</div>
+                    </>
+                }
             </div>
         </Link>
     );
