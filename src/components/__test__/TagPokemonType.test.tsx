@@ -1,5 +1,5 @@
-import { it, expect, describe, vitest, beforeEach, afterEach } from 'vitest';
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { it, expect, describe, afterEach } from 'vitest';
+import { cleanup, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/vitest'; // Import jest-dom matchers
 import TagPokemonType from '../TagPokemonType';
 
