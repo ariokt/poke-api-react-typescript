@@ -67,7 +67,7 @@ const TagPokemonType: React.FC<TagPokemonTypeProps> = ({ pokemonType }) => {
   }
 
   return (
-    <div className={`text-white py-1 px-2 rounded-xl mb-2`} style={{ backgroundColor: bgColor }}>
+    <div className={`text-white py-1 px-2 rounded-xl mb-2`} role='pokemon-type' style={{ backgroundColor: bgColor }}>
       {pokemonType}
     </div>
   );

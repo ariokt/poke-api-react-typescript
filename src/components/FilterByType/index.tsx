@@ -2,10 +2,11 @@ import React, { ChangeEventHandler, useEffect, useState } from 'react'
 import { fetchAllTypes } from '../../utils/pokeapi';
 
 interface FilterByTypeProps {
+  typeValue: string;
   setFilterType: (type: string) => void;
 }
 
-const  FilterByType: React.FC<FilterByTypeProps> = ({ setFilterType }) => {
+const  FilterByType: React.FC<FilterByTypeProps> = ({ typeValue, setFilterType }) => {
 
   const [typesList, setTypesList] = useState<any[]>([{name: '', url: '' }]);
 
@@ -26,7 +27,7 @@ const  FilterByType: React.FC<FilterByTypeProps> = ({ setFilterType }) => {
 
   return (
     <div className='mx-auto w-fit mb-4'>
-      <select className='p-2 border rounded w-[200px]' onChange={handleFilterSelection}>
+      <select className='p-2 border rounded w-[200px]' value={typeValue} onChange={handleFilterSelection}>
         {typesList.map((type) => <option key={type.name} value={type.name}>{type.name || 'all type'}</option>)}
       </select>
     </div>
